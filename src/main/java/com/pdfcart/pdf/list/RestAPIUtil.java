@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.core.Response;
 
+import org.jboss.resteasy.client.jaxrs.BasicAuthentication;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -122,9 +123,9 @@ public class RestAPIUtil
 	{
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		ResteasyWebTarget target = client.target("http://localhost:9200");
+		target.register(new BasicAuthentication("elastic", "TechPass@123!"));
 		ElasticRestProxyClient simple = (ElasticRestProxyClient)target.proxy(ElasticRestProxyClient.class);
 		Response returned = simple.getSearchResultsForQuery("", query);
-
 		String returnedString = (String)returned.readEntity(String.class);
 		client.close();
 
@@ -138,6 +139,7 @@ public class RestAPIUtil
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		//System.out.println("client " + client);
 		ResteasyWebTarget target = client.target("http://localhost:9200");
+		target.register(new BasicAuthentication("elastic", "TechPass@123!"));
 		//System.out.println("target " + target);
 		ElasticRestProxyClient simple = (ElasticRestProxyClient)target.proxy(ElasticRestProxyClient.class);
 		//System.out.println("simple " + simple);
@@ -151,10 +153,30 @@ public class RestAPIUtil
 		return gson.getAsJsonObject();
 	}
 
+	public static JsonObject getSingleCrawledPDFFromLG(String pdfHash)
+	{
+		//System.out.println("pdfHash " + pdfHash);
+		ResteasyClient client = new ResteasyClientBuilder().build();
+		//System.out.println("client " + client);
+		ResteasyWebTarget target = client.target("http://localhost:9200");
+		target.register(new BasicAuthentication("elastic", "TechPass@123!"));
+		//System.out.println("target " + target);
+		ElasticRestProxyClient simple = (ElasticRestProxyClient)target.proxy(ElasticRestProxyClient.class);
+		//System.out.println("simple " + simple);
+		Response returned = simple.getSingleLinkedPdfFromLG(pdfHash);
+		//System.out.println("returned " + returned);
+		String returnedEntity = (String)returned.readEntity(String.class);
+		//System.out.println("returnedEntity " + returnedEntity);
+		client.close();
+		JsonElement gson = new JsonParser().parse(returnedEntity);
+		return gson.getAsJsonObject();
+	}
+
 	public static JsonObject getPDFDocumentForHash(String pdfHash)
 	{
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		ResteasyWebTarget target = client.target("http://localhost:9200");
+		target.register(new BasicAuthentication("elastic", "TechPass@123!"));
 		ElasticRestProxyClient simple = (ElasticRestProxyClient)target.proxy(ElasticRestProxyClient.class);
 		Response returned = simple.getSingleLinkedPdf(pdfHash);
 		client.close();

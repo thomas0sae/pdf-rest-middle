@@ -27,13 +27,18 @@ public interface ElasticRestProxyClient
     @Produces({"application/json;charset=utf-8"})
     public abstract Response getSingleLinkedPdf(@PathParam("pdfHash") String paramString);
 
+    @GET
+    @Path("pdf2/_doc/{pdfHash}")
+    @Produces({"application/json;charset=utf-8"})
+    public abstract Response getSingleLinkedPdfFromLG(@PathParam("pdfHash") String paramString);
+
     @POST
-    @Path("/pdf1/_doc/_search")
+    @Path("/pdf*/_doc/_search")
     @Produces({"application/json;charset=utf-8"})
     public abstract Response getSearchResultsForQuery(@QueryParam("pretty") String paramString1, String paramString2);
 
     @GET
-    @Path("pdf1/_doc/_search?q={searchKeyword}&from={nextStartIndex}&size=10&sort={sortBy}:desc")
+    @Path("pdf*/_doc/_search?q={searchKeyword}&from={nextStartIndex}&size=10&sort={sortBy}:desc")
     @Produces({"application/json;charset=utf-8"})
     public abstract Response getNextSearchResultsPdf(@PathParam("searchKeyword") String paramString1, @PathParam("nextStartIndex") String paramString2, @PathParam("sortBy") String paramString3);
 

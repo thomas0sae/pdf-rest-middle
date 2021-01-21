@@ -14,6 +14,7 @@ public class DomainApp extends Application {
     {
         Set<Class<?>> s = new HashSet<Class<?>>();
         s.add(RestAPI.class);
+        s.add(JsonAPI.class);
         return s;
     }
 }
