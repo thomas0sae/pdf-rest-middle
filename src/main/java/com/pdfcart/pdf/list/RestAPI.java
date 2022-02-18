@@ -40,6 +40,13 @@ public class RestAPI
 		response.setCharacterEncoding("UTF-8");
 		if (page != null && page.trim().length() > 0)
 		{
+			try {
+				page = Integer.parseInt(page)+"";
+			}
+			catch (Exception e)
+			{
+				page = "1";
+			}
 			if (Integer.valueOf(page) >= 100)
 			{
 				request.setAttribute("message", "Please narrow down your search! I can't bring " + "everything to you!");
@@ -115,8 +122,8 @@ public class RestAPI
 		response.setCharacterEncoding("UTF-8");
 		pdfHash = Encode.forHtml(pdfHash);
 		pdfName = Encode.forHtml(pdfName);
-		System.out.println("pdfHash "+pdfHash);
-		System.out.println("pdfName "+pdfName);
+		//System.out.println("pdfHash "+pdfHash);
+		//System.out.println("pdfName "+pdfName);
 		JsonObject jObject = RestAPIUtil.getSingleCrawledPDF(pdfHash);
 		//JsonElement _sourceElem = jObject.get("_source");
 		//if (_sourceElem != null) {
@@ -139,7 +146,7 @@ public class RestAPI
 		response.setCharacterEncoding("UTF-8");
 		pdfHash = Encode.forHtml(pdfHash);
 		pdfName = Encode.forHtml(pdfName);
-		System.out.println("pdfHash "+pdfHash);
+		//System.out.println("pdfHash "+pdfHash);
 		JsonObject jObject = RestAPIUtil.getSingleCrawledPDFFromLG(pdfHash);
 		//JsonElement _sourceElem = jObject.get("_source");
 		//if (_sourceElem != null) {
@@ -147,7 +154,7 @@ public class RestAPI
 		request.setAttribute("data", jObject);
 		request.setAttribute("isPDF2", Boolean.TRUE);
 		//}
-		System.out.println("pdfName "+jObject);
+		//System.out.println("pdfName "+jObject);
 		//request.setAttribute("domCache", (Set<String>) RestAPIUtil.getAllRecentDomainFromCache());
 		request.getRequestDispatcher("/downloadSingle.jsp").forward(request, response);
 	}
@@ -164,8 +171,8 @@ public class RestAPI
 		response.setCharacterEncoding("UTF-8");
 		pdfHash = Encode.forHtml(pdfHash);
 		pdfName = Encode.forHtml(pdfName);
-		System.out.println("pdfHash "+pdfHash);
-		System.out.println("pdfName "+pdfName);
+		//System.out.println("pdfHash "+pdfHash);
+		//System.out.println("pdfName "+pdfName);
 		JsonObject jObject = RestAPIUtil.getPDFDocumentForHash(pdfHash);
 		// System.out.println(jObject);
 		request.setAttribute("data", jObject);
@@ -226,13 +233,14 @@ public class RestAPI
 				{
 
 				}
-				if (pgCount >= 100)
+				if (pgCount >= 300)
 				{
 					request.setAttribute("message", "Please narrow down your search!<br /> I can't bring " + "everything to you!");
 					request.getRequestDispatcher("/noShow.jsp").forward(request, response);
 					return;
 				}
 			}
+			request.setAttribute("searchKeyword", searchKeyword);
 			searchKeyword = Encode.forHtmlAttribute(searchKeyword);
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");
@@ -244,7 +252,7 @@ public class RestAPI
 			JsonObject jObject = RestAPIUtil.getPDFListForSearchKeywordFromCache(searchKeyword,
 					((pgCount - 1) * 30) + 1);
 			// System.out.println(jObject);
-			request.setAttribute("searchKeyword", searchKeyword);
+
 			request.setAttribute("currPage", pgCount);
 			request.setAttribute("data", jObject);
 			//request.setAttribute("domCache", (Set<String>) RestAPIUtil.getAllRecentDomainFromCache());

@@ -26,7 +26,7 @@ public class JsonAPI {
         JsonObject jObject = RestAPIUtil.getRandomListToDisplayFromCache();
         Gson gson = new Gson();
         String result = gson.toJson(jObject);
-        System.out.println("result "+result);
+        //.println("result "+result);
         return Response.status(200).entity(result).build();
     }
 
@@ -44,7 +44,7 @@ public class JsonAPI {
         JsonObject jObject = RestAPIUtil.getSingleCrawledPDF(pdfHash);
         Gson gson = new Gson();
         String result = gson.toJson(jObject);
-        System.out.println("result "+result);
+        //System.out.println("result "+result);
         return Response.status(200).entity(result).build();
     }
 
@@ -62,7 +62,7 @@ public class JsonAPI {
         JsonObject jObject = RestAPIUtil.getSingleCrawledPDFFromLG(pdfHash);
         Gson gson = new Gson();
         String result = gson.toJson(jObject);
-        System.out.println("result "+result);
+        //System.out.println("result "+result);
         return Response.status(200).entity(result).build();
 
     }
@@ -94,7 +94,7 @@ public class JsonAPI {
                     ((pgCount - 1) * 30) + 1);
             Gson gson = new Gson();
             String result = gson.toJson(jObject);
-            System.out.println("result "+result);
+            //System.out.println("result "+result);
             return Response.status(200).entity(result).build();
             /*
              * return Response.status(Response.Status.SEE_OTHER)

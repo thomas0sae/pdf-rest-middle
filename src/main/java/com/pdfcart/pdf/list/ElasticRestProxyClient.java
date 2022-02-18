@@ -42,4 +42,20 @@ public interface ElasticRestProxyClient
     @Produces({"application/json;charset=utf-8"})
     public abstract Response getNextSearchResultsPdf(@PathParam("searchKeyword") String paramString1, @PathParam("nextStartIndex") String paramString2, @PathParam("sortBy") String paramString3);
 
+    @GET
+    @Path("smedia/_doc/{smHash}")
+    @Produces({"application/json;charset=utf-8"})
+    public abstract Response getSingleDomainSMedia(@PathParam("smHash") String paramString);
+
+    @POST
+    @Path("smedia/_doc/_search")
+    @Produces({"application/json;charset=utf-8"})
+    public abstract Response getSearchResultsForQuerySMedia(@QueryParam("pretty") String paramString1, String paramString2);
+
+    @GET
+    @Path("smedia/_doc/_search?q={searchKeyword}&from={nextStartIndex}&size=10&sort={sortBy}:desc")
+    @Produces({"application/json;charset=utf-8"})
+    public abstract Response getNextSearchResultsSMedia(@PathParam("searchKeyword") String paramString1,
+                                                        @PathParam("nextStartIndex") String paramString2,
+                                                        @PathParam("sortBy") String paramString3);
 }
